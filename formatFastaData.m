@@ -1,6 +1,6 @@
 function formatedOutput = formatFastaData(fastaData)
-%Transforms a series of Fasta sequences into a cell array coresponding to
-%the equivalent PDBx/mmCIF file ATOM series
+%Transforma o serie de secvente Fasta intr-un vector de celule echivalente
+%seriei de atomi dintrun fisier PDBx/mmCIF 
     keys = {'Ala','Arg','Asn','Asp','Cys','Gln','Glu','Gly','His','Ile','Leu','Lys','Met','Phe','Pro','Ser','Thr','Trp','Tyr','Val','Asx','Glx','Xaa'};
     values = {{'N', 'C', 'C', 'O', 'C', ; 'N', 'CA', 'C', 'O', 'CB'  },
             {'N', 'C', 'C', 'O', 'C', 'C', 'C', 'N', 'C', 'N', 'N', ; 'N', 'CA', 'C', 'O', 'CB', 'CG', 'CD', 'NE', 'CZ', 'NH1', 'NH2'  },
@@ -26,15 +26,15 @@ function formatedOutput = formatFastaData(fastaData)
             {'N', 'C', 'C', 'O', 'C', 'C', 'C', 'O', 'N', ; 'N', 'CA', 'C', 'O', 'CB', 'CG', 'CD', 'OE1', 'NE2'  },
             {'N', 'C', 'C', 'O', 'C', ; 'N', 'CA', 'C', 'O', 'CB'  }
             };
-    %Each residue has a structure in PDB file containing the atoms of its
-    %backbone and their functions. The residue-structure corespondences are
-    %stored in the dictionary aminoacidMap
+    %Fiecare reziduu are o structura in formatul PDB care contine atomii
+    %coloanei sale vertebrale. Corespondenta reziduu-coloana este retinuta
+    %in dictionarul aminoacidMap
     aminoacidMap = containers.Map(keys, values);
     formatedOutput = {};
     chainSymbol = 65;
     atomIndex = 1;
-    %For each Residue in the Fasta file, a number of lines are written in
-    %the PDB file, unique to each type of residue
+    %Pentru fiecare reziduu din fisierul .fasta, un numar de linii este
+    %scris in fisierul PDB, unic pentru fiecare reziduu
     for i=1:length(fastaData)
         chainResidueIndex = 1;
         for j=1:length(fastaData(i).Sequence)

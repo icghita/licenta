@@ -114,14 +114,12 @@ function fastaText_CreateFcn(hObject, eventdata, handles)
 handles.output = hObject;
 mainHandles = getappdata(0, 'mainHandles');
 try
-    for i=1:length(mainHandles.fastaData)
-        if(strcmp(mainHandles.fastaData(i).Header, mainHandles.selectedVirusName))
-            j=i;
-            handles.localFastaSequence = mainHandles.fastaData(j).Sequence;
-            break;
-        end
+    fastaData = fastareadCustom(strcat(mainHandles.fastaFolder, '\', mainHandles.selectedFastaName));
+    fullSequence = '';
+    for i=1:length(fastaData)
+        fullSequence = [fullSequence fastaData(i).Sequence];
     end
-    set(handles.output, 'String', handles.localFastaSequence);   
+    set(handles.output, 'String', fullSequence);   
 catch
 end
 guidata(hObject,handles);
@@ -158,14 +156,12 @@ function fastaLengthText_CreateFcn(hObject, eventdata, handles)
 handles.output = hObject;
 mainHandles = getappdata(0, 'mainHandles');
 try
-    for i=1:length(mainHandles.fastaData)
-        if(strcmp(mainHandles.fastaData(i).Header, mainHandles.selectedVirusName))
-            j=i;
-            handles.localFastaSequence = mainHandles.fastaData(j).Sequence;
-            break;
-        end
+    fastaData = fastareadCustom(strcat(mainHandles.fastaFolder, '\', mainHandles.selectedFastaName));
+    fullSequence = '';
+    for i=1:length(fastaData)
+        fullSequence = [fullSequence fastaData(i).Sequence];
     end
-    set(handles.output, 'String', length(handles.localFastaSequence));
+    set(handles.output, 'String', length(fullSequence));
 catch
 end
 guidata(hObject,handles);

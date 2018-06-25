@@ -22,7 +22,7 @@ function varargout = AnnGen(varargin)
 
 % Edit the above text to modify the response to help AnnGen
 
-% Last Modified by GUIDE v2.5 04-Jun-2018 17:26:04
+% Last Modified by GUIDE v2.5 19-Jun-2018 11:13:45
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -460,14 +460,7 @@ try
             networkNameStringParam = handles.networkNameString;
         end
     end
-    if(strcmp(handles.networkTypeValue, 'Feedforward Neural Network'))
-        ANNStorage = generateFeedforwardNetwork(networkNameStringParam, handles.networkTypeValue, handles.proteinCodificationValue, handles.pdbCifFolder, handles.pdbCifFiles, handles.noOfInputsValue, handles.noOfHiddenNeuronsValue, handles.networkTrainingFunctionValue, [handles.firstDataDivisionLimitValue handles.secondDataDivisionLimitValue], [handles.useParallelCheckboxValue handles.useGpuCheckboxValue], [handles.useClassesCheckBoxValue handles.firstI50ClassLimitValue handles.secondI50ClassLimitValue], handles.crossoverLengthValue, 6, [11 12 13]);
-    end
-    if(strcmp(handles.networkTypeValue, 'Self Organizing Map'))
-        ANNStorage = generateSelfOrganizingMap(networkNameStringParam, handles.networkTypeValue, handles.proteinCodificationValue, handles.fastaData, handles.mapTopologyValue, handles.mapWidthValue, handles.mapHeightValue, handles.trainingStepsValue, handles.neighborhoodSizeValue, handles.distanceFunctionValue);
-        setappdata(0,'mainHandles', ANNStorage);
-        somOutputGUI;
-    end
+    ANNStorage = generateNeuralNetwork(networkNameStringParam, handles.networkTypeValue, handles.proteinCodificationValue, handles.pdbCifFolder, handles.pdbCifFiles, handles.noOfInputsValue, handles.noOfHiddenNeuronsValue, handles.networkTrainingFunctionValue, [handles.firstDataDivisionLimitValue handles.secondDataDivisionLimitValue], [handles.useParallelCheckboxValue handles.useGpuCheckboxValue], handles.crossoverLengthValue, 6, [11 12 13]);
     if(exist(handles.ANNFile, 'file') == 2)
         loadedANN = load(handles.ANNFile);
         ANNStorage = [loadedANN.ANNStorage; ANNStorage];
@@ -485,6 +478,27 @@ set(handles.figure1, 'pointer', oldpointer);
 drawnow;
 guidata(hObject,handles);
 
+% --- Executes on button press in createManyANNPushButton.
+function createManyANNPushButton_Callback(hObject, eventdata, handles)
+% hObject    handle to createManyANNPushButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles = guidata(handles.output);
+oldpointer = get(handles.figure1, 'pointer');
+set(handles.figure1, 'pointer', 'watch');
+drawnow;
+for i=0:30:150
+    ANNStorage = generateFeedforwardNetwork(networkNameStringParam, handles.networkTypeValue, handles.proteinCodificationValue, handles.pdbCifFolder, handles.pdbCifFiles, handles.noOfInputsValue, handles.noOfHiddenNeuronsValue, handles.networkTrainingFunctionValue, [handles.firstDataDivisionLimitValue handles.secondDataDivisionLimitValue], [handles.useParallelCheckboxValue handles.useGpuCheckboxValue], [handles.useClassesCheckBoxValue handles.firstI50ClassLimitValue handles.secondI50ClassLimitValue], i, 6, [11 12 13]);
+    if(exist(handles.ANNFile, 'file') == 2)
+        loadedANN = load(handles.ANNFile);
+        ANNStorage = [loadedANN.ANNStorage; ANNStorage];
+    end
+    handles.ANNStorageIndexes = 1:length(ANNStorage);
+    save(handles.ANNFile, 'ANNStorage');
+end
+set(handles.figure1, 'pointer', oldpointer);
+drawnow;
+guidata(hObject,handles);
 
 function noOfInputs_Callback(hObject, eventdata, handles)
 % hObject    handle to noOfInputs (see GCBO)

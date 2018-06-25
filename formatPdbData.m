@@ -15,9 +15,6 @@ function [residues, formatedCoordinates] = formatPdbData(data, blockSize, residu
         formatedCoordinates{j} = NaN(blockSize, floor(length(data)/indexInterval));
     end
     for i=1:floor(length(data)/indexInterval)
-        if(i==917)
-        disp(i);
-        end
         for j=1:length(coordinatesIndexes)
             dataBlock = data((i-1)*indexInterval+1 : min((i-1)*indexInterval+blockSize, length(data)), coordinatesIndexes(j));
             formatedCoordinates{j}(1:length(dataBlock),i) = cellfun(@(c) str2double(c), dataBlock);
