@@ -1,2 +1,2 @@
-# ann-relationship-between-hiv-and-antibodies
-Learning the Relationship between the Primary Structure of HIV Envelope Glycoproteins and Neutralization Activity of Particular Antibodies by Using Artiﬁcial Neural Networks
+# Prediction of protein structure using recurrent neural networks 
+This software trains recurrent neural networks using crystalography data from PDB files to predict the tertiary structure of a chain of aminoacids.
